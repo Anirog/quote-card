@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add New Quote</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      color: #666;
+      margin-bottom: 30px;
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    textarea:focus, input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .success {
+      background: #10b981;
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      display: none;
+      font-size: 14px;
+    }
+
+    .success.show {
+      display: block;
+    }
+
+    .quote-count {
+      color: #666;
+      font-size: 14px;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Add New Quote</h1>
+    <p class="subtitle">Fill in the form below to add a new quote to your collection</p>
+
+    <div id="success-message" class="success">
+      Quote added successfully!
+    </div>
+
+    <form id="quote-form">
+      <div class="form-group">
+        <label for="quote-text">Quote Text</label>
+        <textarea id="quote-text" placeholder="Enter the quote text here..." required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" id="author" placeholder="Author name" required>
+      </div>
+
+      <button type="submit">Add Quote</button>
+    </form>
+
+    <p class="quote-count">Current quotes: <strong id="count">Loading...</strong></p>
+  </div>
+
+  <script>
+    let quotes = [];
+
+    async function loadQuotes() {
+      try {
+        const response = await fetch('quotes.json');
+        quotes = await response.json();
+        document.getElementById('count').textContent = quotes.length;
+      } catch (error) {
+        console.error('Error loading quotes:', error);
+        document.getElementById('count').textContent = 'Error loading';
+      }
+    }
+
+    document.getElementById('quote-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const quoteText = document.getElementById('quote-text').value.trim();
+      const author = document.getElementById('author').value.trim();
+
+      if (quoteText && author) {
+        try {
+          const response = await fetch('/add-quote', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              text: quoteText,
+              author: author
+            })
+          });
+
+          const result = await response.json();
+
+          if (result.success) {
+            document.getElementById('success-message').classList.add('show');
+            document.getElementById('count').textContent = result.totalQuotes;
+
+            document.getElementById('quote-text').value = '';
+            document.getElementById('author').value = '';
+
+            setTimeout(() => {
+              document.getElementById('success-message').classList.remove('show');
+            }, 3000);
+          } else {
+            alert('Error adding quote. Please try again.');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error adding quote. Please try again.');
+        }
+      }
+    });
+
+    loadQuotes();
+  </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quote Card</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="quote-card.css">
+</head>
+<body>
+  <div class="card">
+    <div class="card__border">
+      <div class="card__content">
+        <p class="card__text" id="quote"></p>
+      </div>
+    </div>
+  </div>
+  <script>
+    async function loadRandomQuote() {
+      try {
+        const response = await fetch('quotes.json');
+        const quotes = await response.json();
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        const quoteElement = document.getElementById('quote');
+        quoteElement.innerHTML = `${randomQuote.text}<br>– ${randomQuote.author}`;
+      } catch (error) {
+        console.error('Error loading quote:', error);
+        document.getElementById('quote').textContent = 'No matter how you feel today, get up, dress up and show up.\n– Paulo Coelho';
+      }
+    }
+
+    loadRandomQuote();
+  </script>
+</body>
+</html>
