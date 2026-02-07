@@ -24,7 +24,7 @@
         const quotes = await response.json();
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         const quoteElement = document.getElementById('quote');
-        quoteElement.innerHTML = `${randomQuote.text}<br>– ${randomQuote.author}`;
+        quoteElement.innerHTML = `${randomQuote.text}<br><span class="card__author">– ${randomQuote.author}</span>`;
       } catch (error) {
         console.error('Error loading quote:', error);
         document.getElementById('quote').textContent = 'No matter how you feel today, get up, dress up and show up.\n– Paulo Coelho';

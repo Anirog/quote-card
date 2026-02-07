@@ -50,6 +50,10 @@ body {
     margin: 0;
 }
 
+.card__author {
+    font-size: 16px;
+}
+
 @media (max-width: 700px) {
     .card__text {
         font-size: 22px;
