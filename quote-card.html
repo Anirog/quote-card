@@ -15,24 +15,62 @@
     <div class="card__border">
       <div class="card__content">
         <p class="card__text" id="quote"></p>
+        <div class="card__meta">
+          <span class="card__author" id="author"></span>
+          <button class="card__refresh" id="refresh-quote" type="button" aria-label="Show another quote">
+            <i class="ph-light ph-arrow-clockwise"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
   <script>
-    async function loadRandomQuote() {
+    let quotes = [];
+    let currentIndex = -1;
+
+    function getNextQuoteIndex() {
+      if (quotes.length <= 1) {
+        return 0;
+      }
+
+      let nextIndex = Math.floor(Math.random() * quotes.length);
+      while (nextIndex === currentIndex) {
+        nextIndex = Math.floor(Math.random() * quotes.length);
+      }
+
+      return nextIndex;
+    }
+
+    function renderQuote(index) {
+      const quoteElement = document.getElementById('quote');
+      const authorElement = document.getElementById('author');
+      quoteElement.textContent = quotes[index].text;
+      authorElement.textContent = `– ${quotes[index].author}`;
+      currentIndex = index;
+    }
+
+    function showRandomQuote() {
+      if (!quotes.length) {
+        return;
+      }
+      renderQuote(getNextQuoteIndex());
+    }
+
+    async function initQuotes() {
       try {
         const response = await fetch('quotes.json');
-        const quotes = await response.json();
-        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-        const quoteElement = document.getElementById('quote');
-        quoteElement.innerHTML = `${randomQuote.text}<br><span class="card__author">– ${randomQuote.author}</span>`;
+        quotes = await response.json();
+        showRandomQuote();
       } catch (error) {
         console.error('Error loading quote:', error);
-        document.getElementById('quote').textContent = 'No matter how you feel today, get up, dress up and show up.\n– Paulo Coelho';
+        document.getElementById('quote').textContent = 'No matter how you feel today, get up, dress up and show up.';
+        document.getElementById('author').textContent = '– Paulo Coelho';
       }
     }
 
-    loadRandomQuote();
+    document.getElementById('refresh-quote').addEventListener('click', showRandomQuote);
+
+    initQuotes();
   </script>
 </body>
 </html>
