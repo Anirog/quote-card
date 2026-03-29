@@ -17,6 +17,9 @@
         <p class="card__text" id="quote"></p>
         <div class="card__meta">
           <span class="card__author" id="author"></span>
+          <button class="card__refresh" id="copy-quote" type="button" aria-label="Copy quote">
+            <i class="ph-light ph-copy"></i>
+          </button>
           <button class="card__refresh" id="refresh-quote" type="button" aria-label="Show another quote">
             <i class="ph-light ph-arrow-clockwise"></i>
           </button>
@@ -27,6 +30,7 @@
   <script>
     let quotes = [];
     let currentIndex = -1;
+    let copyResetTimeout;
 
     function getNextQuoteIndex() {
       if (quotes.length <= 1) {
@@ -56,6 +60,34 @@
       renderQuote(getNextQuoteIndex());
     }
 
+    async function copyCurrentQuote() {
+      if (currentIndex < 0 || !quotes[currentIndex]) {
+        return;
+      }
+
+      const copyButton = document.getElementById('copy-quote');
+      const originalContent = '<i class="ph-light ph-copy"></i>';
+      const quote = quotes[currentIndex];
+      const textToCopy = `${quote.text} — ${quote.author}`;
+
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+
+        copyButton.classList.add('card__refresh--copied');
+        copyButton.innerHTML = 'Copied!';
+        copyButton.setAttribute('aria-label', 'Quote copied');
+
+        clearTimeout(copyResetTimeout);
+        copyResetTimeout = setTimeout(() => {
+          copyButton.classList.remove('card__refresh--copied');
+          copyButton.innerHTML = originalContent;
+          copyButton.setAttribute('aria-label', 'Copy quote');
+        }, 1500);
+      } catch (error) {
+        console.error('Error copying quote:', error);
+      }
+    }
+
     async function initQuotes() {
       try {
         const response = await fetch('quotes.json');
@@ -68,6 +100,7 @@
       }
     }
 
+    document.getElementById('copy-quote').addEventListener('click', copyCurrentQuote);
     document.getElementById('refresh-quote').addEventListener('click', showRandomQuote);
 
     initQuotes();
