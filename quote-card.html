@@ -31,6 +31,8 @@
     let quotes = [];
     let currentIndex = -1;
     let copyResetTimeout;
+    let isTransitioning = false;
+    const fadeDuration = 180;
 
     function getNextQuoteIndex() {
       if (quotes.length <= 1) {
@@ -53,11 +55,38 @@
       currentIndex = index;
     }
 
-    function showRandomQuote() {
-      if (!quotes.length) {
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function showRandomQuote() {
+      if (!quotes.length || isTransitioning) {
         return;
       }
-      renderQuote(getNextQuoteIndex());
+
+      const nextIndex = getNextQuoteIndex();
+      const quoteElement = document.getElementById('quote');
+      const authorElement = document.getElementById('author');
+
+      if (currentIndex === -1) {
+        renderQuote(nextIndex);
+        return;
+      }
+
+      isTransitioning = true;
+      quoteElement.classList.add('card__text--hidden');
+      authorElement.classList.add('card__author--hidden');
+
+      await wait(fadeDuration);
+      renderQuote(nextIndex);
+
+      requestAnimationFrame(() => {
+        quoteElement.classList.remove('card__text--hidden');
+        authorElement.classList.remove('card__author--hidden');
+      });
+
+      await wait(fadeDuration);
+      isTransitioning = false;
     }
 
     async function copyCurrentQuote() {
