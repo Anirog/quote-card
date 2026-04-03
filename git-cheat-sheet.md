@@ -4,10 +4,10 @@
 ## ✅ Everyday Commands
 
 | Action                          | Command                                                             |
-|---------------------------------|----------------------------------------------------------------------|
+|---------------------------------|---------------------------------------------------------------------|
 | Check current branch            | `git branch`                                                        |
-| Switch to an existing branch    | `git checkout branch-name`                                          |
-| Create & switch to a new branch | `git checkout -b feature/my-change`                                 |
+| Switch to an existing branch    | `git switch branch-name`                                            |
+| Create & switch to a new branch | `git switch -c feature/my-change`                                   | 
 | See changes                     | `git status`                                                        |
 | Add changes                     | `git add .`                                                         |
 | Commit changes                  | `git commit -m "Describe your changes"`                             |
@@ -21,7 +21,7 @@
 
 1. Create and switch to a new branch:
    ```bash
-   git checkout -b feature/add-mobile-nav
+   git switch -c feature/add-mobile-nav
    ```
 
 2. Work on your changes (HTML, CSS, Python, etc.)
@@ -48,7 +48,7 @@
 
 1. Switch to `main`:
    ```bash
-   git checkout main
+   git switch main
    ```
 
 2. Pull the latest updates:
@@ -79,21 +79,3 @@ Delete on GitHub:
 ```bash
 git push origin --delete feature/add-mobile-nav
 ```
-
----
-
-## 🛠 Deploying to GitHub Pages
-
-1. Build the site:
-   ```bash
-   python generate_blog.py
-   ```
-
-2. Commit and push:
-   ```bash
-   git add .
-   git commit -m "Rebuild site"
-   git push
-   ```
-
-This updates your `/docs` folder and deploys to GitHub Pages.
