@@ -103,7 +103,7 @@
         await navigator.clipboard.writeText(textToCopy);
 
         copyButton.classList.add('card__refresh--copied');
-        copyButton.innerHTML = 'Copied!';
+        copyButton.innerHTML = '<i class="ph ph-check copy-success-icon"></i> Copied';
         copyButton.setAttribute('aria-label', 'Quote copied');
 
         clearTimeout(copyResetTimeout);

@@ -91,6 +91,12 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+.copy-success-icon {
+	margin-right: 0.4rem;
+	color: #198754;
+	font-size: 1.5em;
+}
+
 @media (max-width: 700px) {
     .card__text {
         font-size: 22px;
