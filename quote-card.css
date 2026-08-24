@@ -120,14 +120,8 @@ body {
     padding: 0;
 }
 
-.card__refresh--copied {
-    font-family: 'Poppins', sans-serif;
-}
-
 .copy-success-icon {
-	margin-right: 0.4rem;
-	color: #198754;
-	font-size: 1.5em;
+    color: #A4B55B;
 }
 
 .keyboard-hints {
