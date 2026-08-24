@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Learning session: keyboard shortcuts and CSS spacing</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f4f5f7;
+      --paper: #ffffff;
+      --ink: #202124;
+      --muted: #5f6368;
+      --line: #dfe1e5;
+      --accent: #1769aa;
+      --accent-soft: #eef6fc;
+      --note: #fff8e1;
+      --code: #f1f3f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    main {
+      width: min(780px, calc(100% - 32px));
+      margin: 40px auto;
+      padding: clamp(24px, 5vw, 56px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 12px 36px rgba(32, 33, 36, 0.08);
+    }
+
+    header {
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.25;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3.25rem);
+      letter-spacing: -0.035em;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      margin: 24px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    p,
+    ul,
+    ol,
+    dl {
+      margin-top: 0;
+    }
+
+    section {
+      padding: 32px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    code,
+    kbd {
+      border-radius: 4px;
+      background: var(--code);
+      color: #174a6e;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    code {
+      padding: 0.12em 0.35em;
+    }
+
+    kbd {
+      display: inline-block;
+      min-width: 1.8em;
+      padding: 0.08em 0.4em;
+      border: 1px solid #c7c9cc;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    pre {
+      overflow-x: auto;
+      margin: 16px 0;
+      padding: 16px;
+      border-radius: 8px;
+      background: #202124;
+      color: #f8f9fa;
+      font-size: 0.9rem;
+      line-height: 1.55;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+    }
+
+    .summary {
+      max-width: 65ch;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .meta {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .evidence-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    .evidence-card h3 {
+      margin-top: 0;
+    }
+
+    .evidence-card p:last-child {
+      margin-bottom: 0;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .callout--limit {
+      border-left-color: #c77800;
+      background: var(--note);
+    }
+
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .path-step {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+    }
+
+    .path-step h3 {
+      margin-top: 0;
+    }
+
+    .path-step dl {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 8px 16px;
+      margin-bottom: 0;
+    }
+
+    .path-step dt {
+      font-weight: 700;
+    }
+
+    .path-step dd {
+      margin: 0;
+    }
+
+    @media (max-width: 620px) {
+      main {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .path-step dl {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .path-step dd + dt {
+        margin-top: 10px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        font-size: 10.5pt;
+      }
+
+      main {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+      }
+
+      section,
+      .evidence-card,
+      .path-step,
+      .callout {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="meta">Learning session · <time datetime="2026-08-24">24 August 2026</time></p>
+      <h1>Keyboard shortcuts and CSS spacing</h1>
+      <p class="summary">How I added keyboard shortcuts to the quote card, kept the instructions at the bottom of the screen, and removed a middle dot without closing the gap between the two instructions.</p>
+    </header>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">1. Session overview</h2>
+      <p>I wanted to add two keyboard shortcuts to <code>quote-card.html</code>: <kbd>n</kbd> for a new quote and <kbd>c</kbd> for copying the current quote. I also wanted a small instruction at the bottom of the screen that would remain visible at every screen size.</p>
+      <p>After reviewing the page in the browser, I asked for the middle dot between the instructions to be removed. A CSS margin before the <kbd>c</kbd> key kept the two instructions the same apparent distance apart.</p>
+
+      <div class="evidence-grid">
+        <article class="evidence-card">
+          <h3>Demonstrated</h3>
+          <p>The current HTML connects <kbd>n</kbd> to <code>showRandomQuote()</code> and <kbd>c</kbd> to <code>copyCurrentQuote()</code>. CSS fixes the instruction 16 pixels from the bottom of the browser window. The HTML no longer contains the middle dot.</p>
+        </article>
+        <article class="evidence-card">
+          <h3>Not demonstrated</h3>
+          <p>We did not measure the old and new gaps in the browser's computed layout. We also did not test the finished page on several devices, browsers or keyboard layouts.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="problems">
+      <h2 id="problems">2. Problems encountered</h2>
+      <h3>Using the same code for buttons and keys</h3>
+      <p>The page already had functions for showing and copying quotes. Writing separate versions for the keyboard would have duplicated those functions. A later change could then work for a button but not its keyboard shortcut.</p>
+
+      <h3>Keeping the instructions visible without drawing attention</h3>
+      <p>The instruction needed to stay at the bottom on narrow and wide screens without becoming part of the quote card. The page also needed enough bottom padding to stop the fixed instruction from covering the card.</p>
+
+      <h3>Removing the dot without narrowing the gap</h3>
+      <p>The original HTML placed a middle dot between the instructions and gave it an 8-pixel margin on each side. Deleting that element also deleted the width of the dot and both margins. Without replacement spacing, "Copy quote" would have moved closer to "New quote".</p>
+
+      <h3>Verifying the served page</h3>
+      <p>The normal server check could not start on port 3000 because another process was already using it. I started a temporary static server on port 8765 instead. A proxy first returned a 403 response, but bypassing the proxy for the local address returned the updated page successfully.</p>
+    </section>
+
+    <section aria-labelledby="tried">
+      <h2 id="tried">3. What was tried and learned</h2>
+      <h3>Reuse the existing functions</h3>
+      <p>One <code>keydown</code> listener checks <code>event.key</code> and calls the same functions as the button click handlers:</p>
+      <pre><code>if (event.key.toLowerCase() === 'n') {
+  showRandomQuote();
+} else if (event.key.toLowerCase() === 'c') {
+  copyCurrentQuote();
+}</code></pre>
+      <p>The button and its keyboard shortcut therefore use the same quote selection, fade effect, clipboard text and copied confirmation.</p>
+
+      <h3>Ignore keystrokes that should not trigger the feature</h3>
+      <p>The listener stops when the user is typing in an editable field, holding a key down, or pressing Command, Control or Alt. The current page has no text field, but this check means a text field added later would not turn normal typing into quote commands.</p>
+
+      <h3>Pin the instruction to the bottom of the window</h3>
+      <p><code>position: fixed</code> with <code>bottom: 16px</code> places the instruction 16 pixels from the bottom of the browser window. The body's 64-pixel bottom padding leaves room for it below the card.</p>
+
+      <h3>Replace the dot with a CSS margin</h3>
+      <p>I deleted the middle-dot element and added <code>margin-left: 23px</code> to the <kbd>c</kbd> key. That margin replaces the approximate width previously taken by the dot, its margins and the surrounding inline whitespace.</p>
+      <div class="callout callout--limit">
+        <p><strong>Evidence limit:</strong> the finished CSS uses 23 pixels because that was chosen to preserve the apparent gap. We did not measure both versions in the browser, so the session does not prove that their computed widths are identical.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="connections">
+      <h2 id="connections">4. Connected concepts</h2>
+      <h3>Keyboard events and existing button actions</h3>
+      <p>A keyboard shortcut runs the same action as its button. Because both call the existing function, clicking and pressing a key use the same fade effect, random quote selection, clipboard text and "Copied" message.</p>
+
+      <h3>Visible instructions and accessibility</h3>
+      <p>The visible <code>&lt;kbd&gt;</code> elements display "N" and "C" as keyboard keys. The paragraph's accessible label reads "Keyboard shortcuts: N for a new quote, C to copy the quote". The copy and refresh buttons remain available for people who do not use the shortcuts.</p>
+
+      <h3>Inline content and CSS spacing</h3>
+      <p>The original gap included collapsed whitespace in the HTML, the width of the middle-dot character and the 8-pixel margins on its <code>&lt;span&gt;</code>. After deleting the span, the margin-left value on the "C" key provided one place to control the remaining gap.</p>
+
+      <h3>Fixed positioning and reserved space</h3>
+      <p>The browser removes a fixed element from the page's normal layout, so other content does not make room for it. Adding bottom padding to <code>body</code> creates that room and reduces the chance of the instruction covering the card on a short screen.</p>
+    </section>
+
+    <section aria-labelledby="gaps">
+      <h2 id="gaps">5. Knowledge gaps</h2>
+      <h3>How inline gaps are calculated</h3>
+      <p><strong>What the question showed:</strong> my follow-up question about how the spacing stayed the same showed that I needed a clearer account of what formed the original gap. Removing one inline element can remove its character width, margins and adjacent whitespace at the same time.</p>
+
+      <h3>How to check whether two gaps have the same width</h3>
+      <p><strong>What remains uncertain:</strong> the fixed margin replaced the separator, but we did not record the width of either version. Browser developer tools can measure each element's position and size. Those figures, backed by before-and-after screenshots, would show whether the gaps are equal or merely look similar.</p>
+
+      <h3>Keyboard shortcut edge cases</h3>
+      <p><strong>Optional topic:</strong> the listener handles Command, Control and Alt combinations, repeated keydown events and editable fields. We did not test how it behaves with different focused elements, alternative keyboard layouts, screen readers or the Shift key.</p>
+    </section>
+
+    <section aria-labelledby="path">
+      <h2 id="path">6. Recommended learning path</h2>
+      <p>The first two steps address questions raised directly by this work. The third would help if the instruction begins to overlap the card on short or enlarged screens.</p>
+
+      <article class="path-step">
+        <h3>1. Inline layout and spacing</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>It explains which parts of the original gap disappeared when the separator was removed.</dd>
+          <dt>Understand</dt>
+          <dd>How collapsed whitespace, a character's width, CSS margins and the rectangular area assigned to each inline item determine the gap.</dd>
+          <dt>Connection</dt>
+          <dd>The <code>23px</code> left margin now replaces the approximate space taken by the middle dot, its margins and surrounding whitespace.</dd>
+          <dt>Exercise</dt>
+          <dd>Use browser developer tools to measure the positions of "New quote" and the "C" key in both versions, then compare the gap in pixels.</dd>
+        </dl>
+      </article>
+
+      <article class="path-step">
+        <h3>2. Keyboard events and safe shortcuts</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>Pressing a letter should run a shortcut only when the user is not typing or using another key combination.</dd>
+          <dt>Understand</dt>
+          <dd>How <code>event.key</code>, the modifier flags, <code>event.repeat</code> and the focused element tell the listener what the user is doing.</dd>
+          <dt>Connection</dt>
+          <dd>The quote card checks these values before it responds to <kbd>n</kbd> or <kbd>c</kbd>.</dd>
+          <dt>Exercise</dt>
+          <dd>Add a temporary text input and confirm that typing "nice" does not change or copy the quote.</dd>
+        </dl>
+      </article>
+
+      <article class="path-step">
+        <h3>3. Optional: fixed instructions on small screens</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>An instruction fixed to the bottom can cover the card on a short screen or after enlarged text makes the instruction wrap.</dd>
+          <dt>Understand</dt>
+          <dd>How the browser window's height, device safe areas and the body's bottom padding affect the space available for a fixed instruction.</dd>
+          <dt>Connection</dt>
+          <dd>The shortcut instruction sits 16 pixels from the bottom, while the body reserves 64 pixels below the card.</dd>
+          <dt>Exercise</dt>
+          <dd>Use a very short browser window and 200% text zoom. Check whether any part of the instruction covers the card.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <section aria-labelledby="takeaways">
+      <h2 id="takeaways">7. Key takeaways</h2>
+      <ul>
+        <li>The keyboard shortcuts call the existing button functions, so the two controls cannot develop separate quote behaviour.</li>
+        <li>The listener ignores editable fields, Command, Control and Alt combinations, and repeated keydown events.</li>
+        <li><code>position: fixed</code> keeps the instruction at the bottom of the window. Bottom padding stops it from occupying the same space as the card.</li>
+        <li>Deleting the separator removed its character width and margins. A left margin on the "C" key replaced that space.</li>
+        <li>The 23-pixel margin preserves the apparent gap, but only a browser measurement can show whether the old and new widths match exactly.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="questions">
+      <h2 id="questions">8. Questions to revisit</h2>
+      <ul>
+        <li>In pixels, is the new gap the same width as the old one in the browser's computed layout?</li>
+        <li>At 200% text zoom or in a very short browser window, does the instruction cover the card?</li>
+        <li>Should the page ignore shortcuts while the quote is fading, or does the existing isTransitioning check already handle this well enough?</li>
+        <li>Would "Press N" and "Press C" be clearer than the current key-cap labels?</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
