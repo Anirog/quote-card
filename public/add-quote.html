@@ -18,7 +18,40 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 80px 20px 20px;
+    }
+
+    .page-nav {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      z-index: 10;
+      transform: translateX(-50%);
+    }
+
+    .page-nav__link {
+      display: inline-block;
+      padding: 9px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.16);
+      box-shadow: 0 5px 16px rgba(47, 35, 95, 0.22);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .page-nav__link:hover {
+      background: rgba(255, 255, 255, 0.26);
+      transform: translateY(-1px);
+    }
+
+    .page-nav__link:focus-visible {
+      outline: 3px solid white;
+      outline-offset: 3px;
     }
 
     .container {
@@ -256,6 +289,9 @@
   </style>
 </head>
 <body>
+  <nav class="page-nav" aria-label="Page navigation">
+    <a class="page-nav__link" href="quote-card.html">Back to quote card</a>
+  </nav>
   <div class="container">
     <h1>Manage Quotes</h1>
     <p class="subtitle">Add, edit, or delete quotes from your collection</p>
