@@ -28,6 +28,9 @@ yarn-error.log*
 # Build output
 dist/
 build/
+.next/
+.vinext/
+.wrangler/
 
 # Optional: coverage reports
 coverage/

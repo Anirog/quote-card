@@ -1,10 +1,10 @@
 # Quote Card
 
-A tiny demo that serves a random quote card and a management UI.
+A tiny Sites app with a random quote card and a management UI.
 
 ## Requirements
 
-- Node.js (v14+ recommended)
+- Node.js 22.13 or newer
 
 ## Install
 
@@ -14,12 +14,12 @@ Install dependencies:
 npm install
 ```
 
-## Start the server
+## Start the development server
 
-Run the app (starts an Express server on port 3000):
+Run the app:
 
 ```bash
-npm start
+npm run dev
 ```
 
 Open in your browser:
@@ -31,7 +31,13 @@ Open in your browser:
 
 In the terminal where the server is running, press `Ctrl+C` to stop it.
 
+## Production build
+
+```bash
+npm run build
+```
+
 ## Notes
 
-- Quotes are stored in `quotes.json` in the project root. The server reads and writes this file.
-- The server uses port `3000` by default (see `server.js`).
+- `quotes.json` supplies the initial quote collection.
+- Added, edited and deleted quotes are stored in the Sites-managed database.

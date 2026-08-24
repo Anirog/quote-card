@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 20px 64px;
+    background-color: #f5f5f5;
+}
+
+.card {
+    max-width: 366px;
+    width: 100%;
+    min-height: 197px;
+}
+
+.card__border {
+    background: linear-gradient(224deg,
+            rgba(79, 207, 112, 1) 0%,
+            rgba(250, 214, 72, 1) 24%,
+            rgba(167, 103, 229, 1) 52%,
+            rgba(18, 188, 254, 1) 82%,
+            rgba(68, 206, 123, 1) 100%);
+    border-radius: 23px;
+    padding: 8px;
+}
+
+.card__content {
+    background-color: #202124;
+    border-radius: 15px;
+    padding: 31px 26px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card__text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    line-height: 39px;
+    color: #ffffff;
+    text-align: left;
+    margin: 0;
+    opacity: 1;
+    transition: opacity 180ms ease;
+}
+
+.card__meta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.card__author {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+    color: #ffffff;
+    text-align: left;
+    margin-right: auto;
+    opacity: 1;
+    transition: opacity 180ms ease;
+}
+
+.card__text--hidden,
+.card__author--hidden {
+    opacity: 0;
+}
+
+.card__refresh {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+}
+
+.card__refresh--copied {
+    font-family: 'Poppins', sans-serif;
+}
+
+.copy-success-icon {
+	margin-right: 0.4rem;
+	color: #198754;
+	font-size: 1.5em;
+}
+
+.keyboard-hints {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    color: rgba(32, 33, 36, 0.58);
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.keyboard-hints kbd {
+    display: inline-block;
+    min-width: 20px;
+    margin-right: 3px;
+    padding: 1px 5px;
+    border: 1px solid rgba(32, 33, 36, 0.2);
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.55);
+    font: inherit;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.keyboard-hints__copy-key {
+    margin-left: 23px;
+}
+
+@media (max-width: 700px) {
+    .card__text {
+        font-size: 22px;
+        line-height: 34px;
+    }
+
+    .card__content {
+        padding: 24px 20px;
+    }
+}
