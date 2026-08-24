@@ -123,8 +123,8 @@ body {
     text-transform: uppercase;
 }
 
-.keyboard-hints span {
-    margin: 0 8px;
+.keyboard-hints__copy-key {
+    margin-left: 23px;
 }
 
 @media (max-width: 700px) {
