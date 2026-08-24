@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
-const siteOrigin = process.env.SITE_ORIGIN ?? 'https://larrie-quote-card.sites.openai.com';
+const siteOrigin =
+  process.env.SITE_ORIGIN ?? 'https://larrie-quote-card.larrieknights.chatgpt.site';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
