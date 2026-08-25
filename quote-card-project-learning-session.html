@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quote Card project learning record</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page: #f2f3f5;
+      --paper: #ffffff;
+      --ink: #202124;
+      --muted: #5f6368;
+      --line: #dfe1e5;
+      --accent: #4056a1;
+      --accent-soft: #eef1fb;
+      --proved: #edf7ee;
+      --inferred: #fff7df;
+      --open: #fcefee;
+      --code: #f1f3f4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: 100%;
+    }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    main {
+      width: min(860px, calc(100% - 32px));
+      margin: 40px auto;
+      padding: clamp(24px, 5vw, 56px);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--paper);
+      box-shadow: 0 12px 36px rgba(32, 33, 36, 0.08);
+    }
+
+    header {
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.25;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 6vw, 3.25rem);
+      letter-spacing: -0.035em;
+    }
+
+    h2 {
+      margin: 0 0 16px;
+      font-size: 1.5rem;
+    }
+
+    h3 {
+      margin: 26px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    p,
+    ul,
+    ol,
+    dl {
+      margin-top: 0;
+    }
+
+    section {
+      padding: 34px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.4rem;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    code,
+    kbd {
+      border-radius: 4px;
+      background: var(--code);
+      color: #174a6e;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.92em;
+    }
+
+    code {
+      padding: 0.12em 0.35em;
+    }
+
+    kbd {
+      display: inline-block;
+      min-width: 1.8em;
+      padding: 0.08em 0.4em;
+      border: 1px solid #c7c9cc;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .meta {
+      margin: 0 0 8px;
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .summary {
+      max-width: 68ch;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .evidence-card,
+    .problem,
+    .path-step,
+    .callout {
+      border-radius: 10px;
+    }
+
+    .evidence-card {
+      padding: 18px;
+      border: 1px solid var(--line);
+    }
+
+    .evidence-card h3,
+    .evidence-card p:last-child,
+    .problem h3,
+    .problem p:last-child,
+    .path-step h3,
+    .path-step dl,
+    .callout p:last-child {
+      margin-bottom: 0;
+    }
+
+    .evidence-card h3,
+    .problem h3,
+    .path-step h3 {
+      margin-top: 0;
+    }
+
+    .evidence-card--proved {
+      background: var(--proved);
+    }
+
+    .evidence-card--inferred {
+      background: var(--inferred);
+    }
+
+    .evidence-card--open {
+      background: var(--open);
+    }
+
+    .problem,
+    .path-step {
+      margin-top: 18px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      background: #fafafa;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 16px 18px;
+      border-left: 4px solid var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .path-step dl {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: 8px 16px;
+    }
+
+    .path-step dt {
+      font-weight: 700;
+    }
+
+    .path-step dd {
+      margin: 0;
+    }
+
+    .source-list {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 700px) {
+      main {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .path-step dl {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+
+      .path-step dd + dt {
+        margin-top: 10px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+        font-size: 10.5pt;
+      }
+
+      main {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        box-shadow: none;
+      }
+
+      section,
+      .evidence-card,
+      .problem,
+      .path-step,
+      .callout {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="meta">Project learning record · <time datetime="2026-08-25">25 August 2026</time></p>
+      <h1>Building and deploying Quote Card</h1>
+      <p class="summary">I began with a quote card designed in Sketch and turned it into a small working app one change at a time. The biggest technical change came at deployment: <code>quotes.json</code> could store changes on my Mac, but the live Site needed a database.</p>
+    </header>
+
+    <section aria-labelledby="overview">
+      <h2 id="overview">1. Project overview</h2>
+      <p>I described the project as a coding demo for practising plain HTML, CSS and browser JavaScript. It was mainly for me, but I also wanted to use it occasionally rather than throw it away once the exercise was over. That explains the way it grew: each change answered a specific usability problem instead of following a large feature plan.</p>
+      <p>The accessible conversations and Git history show the card gaining random quotes, quote management, refresh and copy controls, a fade between quotes, keyboard shortcuts, navigation, mobile touch targets and a live deployment. Deployment changed how the app runs and stores data. It replaced the original Express server and direct JSON writes with Next.js route handlers and a Sites-managed Cloudflare D1 database.</p>
+
+      <div class="evidence-grid">
+        <article class="evidence-card evidence-card--proved">
+          <h3>Demonstrated</h3>
+          <p>The repository and commits show the implemented features, the move from Express to Sites, and the current D1-backed API.</p>
+        </article>
+        <article class="evidence-card evidence-card--inferred">
+          <h3>Reasonable inference</h3>
+          <p>I appear to have worked through one useful improvement at a time. The requests and small commits support this, but I did not state it as a plan at the start.</p>
+        </article>
+        <article class="evidence-card evidence-card--open">
+          <h3>Evidence limit</h3>
+          <p>The original Sketch-to-code thread was not among the accessible Quote Card tasks. My later account says that this is how the project started, while the first Git commit already contains the app files.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="problems">
+      <h2 id="problems">2. Problems encountered</h2>
+
+      <article class="problem">
+        <h3>A static card could not provide a changing collection</h3>
+        <p>The starting point displayed one designed card. Loading quotes from <code>quotes.json</code> made the content change without changing the card's visual design. Later, the refresh button called the same quote-selection code without reloading the page, and the code avoided choosing the current quote again when more than one quote existed.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Editing JSON by hand was awkward</h3>
+        <p>The management page added forms and controls for adding, editing and deleting quotes. The Express server originally handled those requests and rewrote <code>quotes.json</code>. Form validation and escaped output mattered because the page accepted user-entered text and inserted stored quotes back into the page.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Small interactions needed clear feedback</h3>
+        <p>The copy control first changed to the word "Copied!". It was refined several times: the confirmation used Poppins, then included a success icon, and finally became a check-circle icon on its own. The current button changes from the copy icon to a <code>ph-check-circle</code> in <code>#A4B55B</code> for three seconds. Its accessible name changes to "Quote copied" even though no confirmation text is visible.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Keyboard shortcuts had to reuse the button actions safely</h3>
+        <p><kbd>n</kbd> calls <code>showRandomQuote()</code> and <kbd>c</kbd> calls <code>copyCurrentQuote()</code>. Reusing those functions keeps mouse and keyboard behaviour together. The listener ignores editable fields, repeated key presses and Command, Control or Alt combinations. The instructions stay fixed at the bottom of the page so the shortcuts are discoverable.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Removing one character changed the spacing</h3>
+        <p>Deleting the middle dot between the shortcut instructions also removed the character's width and its surrounding margins. A <code>23px</code> left margin on the <kbd>c</kbd> key replaced the apparent gap. The session-level record correctly leaves one point open: the old and new gaps looked equivalent, but they were not measured.</p>
+      </article>
+
+      <article class="problem">
+        <h3>The icons were too hard to tap on mobile</h3>
+        <p>The visible icons were 16 pixels and the buttons had no padding. The mobile rule now gives each button a minimum <code>44px × 44px</code> hit area and uses a 24-pixel icon. The distinction matters: the guideline applied to the tappable button area, not to making the icon itself 44 pixels wide.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Local file storage did not fit the deployment host</h3>
+        <p>The Express version wrote changes directly to <code>quotes.json</code>. Sites could serve the quote viewer, but those file writes would not keep changes made through the deployed management page. Fixing that required Next.js-compatible route handlers, Cloudflare bindings and a D1 database.</p>
+      </article>
+
+      <article class="problem">
+        <h3>Changing a root file did not necessarily change the live page</h3>
+        <p>The deployed app serves the copies under <code>public/</code>, while matching root copies remain in the repository. After the copy-feedback edit, I noticed that the root file had changed but the public site had not. The fix required synchronising both copies, running the build, saving a new Site version and deploying it. A local edit and a live update are separate events.</p>
+      </article>
+    </section>
+
+    <section aria-labelledby="tried">
+      <h2 id="tried">3. What was tried and learned</h2>
+
+      <h3>Keep early changes small</h3>
+      <p>The refresh button reused the existing card and quote-loading code. The copy button reused the refresh button's CSS. The fade used opacity, a short <code>wait()</code> helper and a guard against overlapping transitions. These were small changes because the local architecture already supported them.</p>
+
+      <h3>Put shared behaviour in one function</h3>
+      <p>The click handlers and keyboard shortcuts call the same functions. That means a correction to quote selection or clipboard text applies to both forms of input. It also prevents the keyboard version from becoming a second, slightly different implementation.</p>
+
+      <h3>Treat feedback as state, not decoration</h3>
+      <p>The copy button has a normal state and a temporary success state. The code changes its icon and accessible label, clears an existing reset timer, and restores the normal state after three seconds. This is why the button still communicates success after the visible "Copied" text was removed.</p>
+
+      <h3>Separate seed data from live data</h3>
+      <p>In the current app, <code>quotes.json</code> supplies the first rows only when the database table is empty. After that, <code>GET</code>, <code>POST</code>, <code>PUT</code> and <code>DELETE</code> use D1 through <code>db/quotes.ts</code>. Editing <code>quotes.json</code> does not update an already-populated live database.</p>
+
+      <h3>Deployment changed the server and storage</h3>
+      <p>The original project needed only Express, static files and JSON. Sites introduced React, Next.js route handlers, TypeScript, Drizzle schema files, Vite/Vinext and Cloudflare tooling. Most of the user-facing page stayed plain HTML, CSS and JavaScript. The extra code exists mainly because persistent storage and the hosting environment require it.</p>
+
+      <h3>Verification became more specific as the project grew</h3>
+      <p>Some early changes ended with a code review and a suggested browser check. Later work used production builds, local browser interaction tests, file comparisons between root and <code>public/</code>, and deployment-status checks. The copy feedback test checked the icon class, colour, size, missing text and timed reset rather than merely checking that the page loaded.</p>
+
+      <div class="callout">
+        <p><strong>One failed approach worth keeping:</strong> changing only the root quote-card files was not enough once Sites served <code>public/</code>. The files could look correct locally while the deployed source remained unchanged.</p>
+      </div>
+    </section>
+
+    <section aria-labelledby="connections">
+      <h2 id="connections">4. Connected concepts</h2>
+
+      <h3>Interaction design and code structure</h3>
+      <p>The refresh and copy controls each involve more than an icon. An event starts the action, the page updates, an accessible label reports the state, and a timer restores the copy button. Buttons and keys call the same functions, so this code stays in one place.</p>
+
+      <h3>Visible size, hit area and accessibility</h3>
+      <p>A 24-pixel glyph can sit inside a 44-pixel button. The first value controls what the icon looks like; the second controls how easy it is to tap. Accessible names let the icon-only buttons retain a clear meaning for assistive technology.</p>
+
+      <h3>Source files, built output and deployed state</h3>
+      <p>Updating the live page takes several separate actions. Edit the maintained files, make sure duplicate copies match, build the app, save a version and deploy it. The update is confirmed only after the host reports success and the served page is checked.</p>
+
+      <h3>Data model and API design</h3>
+      <p>The browser still addresses quotes by array position. The database stores each quote with an integer ID, and <code>quoteIdAt()</code> translates a requested index into that ID before updating or deleting a row. This preserves the old browser API, but it ties operations to the current sort order.</p>
+
+      <h3>The pages stayed simple while the hosting code grew</h3>
+      <p>The visible quote pages remain close to the original plain HTML, CSS and JavaScript. The repository is no longer a plain Express app, though. The hosting adapter, route handlers and database layer now do work that <code>server.js</code> and <code>quotes.json</code> once handled locally.</p>
+    </section>
+
+    <section aria-labelledby="gaps">
+      <h2 id="gaps">5. Knowledge gaps</h2>
+
+      <h3>Where live data comes from</h3>
+      <p><strong>Evidence:</strong> I later asked where the live site's quotes were stored. The important distinction is now clear: <code>quotes.json</code> seeds an empty D1 table; it is not the live store after deployment.</p>
+      <p><strong>Why it matters:</strong> without this distinction, I could edit the repository's JSON file and expect existing live data to change.</p>
+
+      <h3>Which file is the source of truth</h3>
+      <p><strong>Evidence:</strong> after the icon change, I reported that the root file had the change but the public site did not. The repository currently keeps matching root and <code>public/</code> copies of three front-end files.</p>
+      <p><strong>Why it matters:</strong> duplicated files make it possible to test or edit one copy while deploying another. Comparison checks currently catch this because the repository does not have one source file for each page.</p>
+
+      <h3>How to verify browser behaviour</h3>
+      <p><strong>Evidence:</strong> several early tasks ended without a browser test, while later tasks checked the rendered state and timed reset directly. The existing spacing record also says the old and new gaps were never measured.</p>
+      <p><strong>Why it matters:</strong> a successful build cannot prove that a touch target is usable, a fade feels right, a gap stayed the same, or a button resets after three seconds.</p>
+
+      <h3>Stable record identifiers</h3>
+      <p><strong>Tentative gap:</strong> the current API accepts an array index and converts it to a database ID. The available conversations do not show a problem caused by this, but the mapping could target a different row if ordering or filtering changes later.</p>
+
+      <h3>The boundary of the project</h3>
+      <p><strong>Unresolved:</strong> the project interview established that this was my coding demo, mainly for me, and that I wanted occasional personal use. I stopped the interview before deciding whether the front end, server, deployment or database should be the main subject from this point onward.</p>
+    </section>
+
+    <section aria-labelledby="path">
+      <h2 id="path">6. Recommended learning path</h2>
+      <p>The first three steps address questions and problems that appeared in this project. The last step is optional unless quote ordering or concurrent editing becomes important.</p>
+
+      <article class="path-step">
+        <h3>1. Follow one quote through the whole app</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>This closes the gap between the static page, API and live database.</dd>
+          <dt>Understand</dt>
+          <dd>How form input becomes a <code>POST</code> request, a bound SQL insert and a row returned by the next <code>GET</code>.</dd>
+          <dt>Connection</dt>
+          <dd>It explains exactly why <code>quotes.json</code> and live D1 data are different.</dd>
+          <dt>Exercise</dt>
+          <dd>Add a uniquely worded test quote locally, identify the request that created it, then find the code that reads it back.</dd>
+        </dl>
+      </article>
+
+      <article class="path-step">
+        <h3>2. Map the path from an edit to the live Site</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>The root/public mismatch caused a real deployment problem.</dd>
+          <dt>Understand</dt>
+          <dd>Which files the browser receives, what the build checks, and why saving and deploying a Site version are separate steps.</dd>
+          <dt>Connection</dt>
+          <dd>It explains why a correct root file did not update the public page.</dd>
+          <dt>Exercise</dt>
+          <dd>Change one harmless piece of local text, predict every generated or copied file that should change, and verify the prediction before deployment.</dd>
+        </dl>
+      </article>
+
+      <article class="path-step">
+        <h3>3. Practise interaction checks in the browser</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>The project contains timing, focus, clipboard and responsive behaviour that a build cannot check.</dd>
+          <dt>Understand</dt>
+          <dd>The difference between code validation, rendered layout checks and interaction tests.</dd>
+          <dt>Connection</dt>
+          <dd>This covers the fade, keyboard guards, mobile hit areas, copy feedback and spacing question.</dd>
+          <dt>Exercise</dt>
+          <dd>Write a short manual test with exact expected states at 0 seconds and 3 seconds after copying, then run it at desktop and mobile widths.</dd>
+        </dl>
+      </article>
+
+      <article class="path-step">
+        <h3>4. Optional: use database IDs in the browser API</h3>
+        <dl>
+          <dt>Why</dt>
+          <dd>Database IDs keep an edit attached to one quote even if list order changes.</dd>
+          <dt>Understand</dt>
+          <dd>The difference between a row's identity and its current position in a displayed list.</dd>
+          <dt>Connection</dt>
+          <dd>The current <code>quoteIdAt()</code> helper translates positions into IDs on the server.</dd>
+          <dt>Exercise</dt>
+          <dd>Sketch the JSON returned by <code>GET /api/quotes</code> if it included IDs, then describe how the edit and delete URLs would change.</dd>
+        </dl>
+      </article>
+    </section>
+
+    <section aria-labelledby="takeaways">
+      <h2 id="takeaways">7. Key takeaways</h2>
+      <ul>
+        <li>A useful project can grow through small, specific requests without beginning as a large application plan.</li>
+        <li>Buttons and keyboard shortcuts should call the same functions so their behaviour does not drift apart.</li>
+        <li>An icon's visible size and its tappable area solve different problems.</li>
+        <li><code>quotes.json</code> was once the data store. It is now seed data; D1 stores the live quotes.</li>
+        <li>A local change, a successful build and a deployed update are three different states.</li>
+        <li>The current front end is simple to read, but the deployed project has more infrastructure than the original Express version.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="questions">
+      <h2 id="questions">8. Questions to revisit</h2>
+      <ul>
+        <li>Should the duplicated root and <code>public/</code> files remain, or should one set become the only maintained source?</li>
+        <li>Should the management page edit quotes by database ID rather than current list position?</li>
+        <li>What is the smallest useful set of repeatable browser tests for refresh, copy, shortcuts and quote management?</li>
+        <li>Does the <code>23px</code> shortcut gap match the old separator when measured, or does it only look close?</li>
+        <li>Is the project now mainly a front-end learning exercise, a personal quote tool, or a way to learn deployment and persistence?</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="sources">
+      <h2 id="sources">Evidence used</h2>
+      <p class="source-list">This record uses the accessible Quote Card Codex tasks, the project-planning ChatGPT conversation, the archived Quote Card tasks, the current source files, all Git commits through <code>391a5d8</code>, and the existing keyboard-and-spacing learning record. The existing record was read as evidence and was not changed.</p>
+    </section>
+  </main>
+</body>
+</html>
