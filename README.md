@@ -1,5 +1,7 @@
 # Quote Card
 
+![Quote Card Screenshot](images/quote-card.png)
+
 A tiny Sites app with a random quote card and a management UI.
 
 ## Requirements
